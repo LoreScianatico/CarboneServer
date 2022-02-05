@@ -6,8 +6,7 @@ const carbone = require('carbone');
 
 @Injectable()
 export class AppService {
-
-    //constructor(private readonly carbone) {}
+  //constructor(private readonly carbone) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -15,23 +14,34 @@ export class AppService {
 
   printReport(toPdf: boolean, response: Response): void {
     var data = {
-      firstname : 'John',
-      lastname : 'Doe'
+      firstname: 'John',
+      lastname: 'Doe',
     };
 
     var options = {
-        convertTo : toPdf ? 'pdf' : 'odt' //can be docx, txt, ...
-      };
+      convertTo: toPdf ? 'pdf' : 'odt', //can be docx, txt, ...
+    };
 
-    carbone.render('./node_modules/carbone/examples/simple.odt', data, options, (err: any, result: any) => {
+    carbone.render(
+      './node_modules/carbone/examples/simple.odt',
+      data,
+      options,
+      (err: any, result: any) => {
         if (err) {
           return console.log(err);
         }
         // write the result
-        response.header('Content-Type', toPdf ? 'application/pdf' : 'application/vnd.oasis.opendocument.text');
-        response.header('Content-disposition', `attachment; filename=simple.odt`);
+        response.header(
+          'Content-Type',
+          toPdf ? 'application/pdf' : 'application/vnd.oasis.opendocument.text',
+        );
+        response.header(
+          'Content-disposition',
+          `attachment; filename=simple.odt`,
+        );
         response.write(result, 'binary');
         response.end();
-      });
+      },
+    );
   }
 }

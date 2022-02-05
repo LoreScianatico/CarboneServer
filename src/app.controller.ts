@@ -12,7 +12,8 @@ export class AppController {
   }
 
   @Get('report')
-  getReport(@Query('toPdf') toPdf: boolean, @Res() response: Response): void { //warning! Express.js specific!
+  getReport(@Query('toPdf') toPdf: boolean, @Res() response: Response): void {
+    //warning! Express.js specific!
     this.appService.printReport(toPdf, response);
   }
 }
