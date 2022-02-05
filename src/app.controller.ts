@@ -1,4 +1,4 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get, Res, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
 
@@ -12,7 +12,7 @@ export class AppController {
   }
 
   @Get('report')
-  getReport(@Res() response: Response): void { //warning! Express.js specific!
-    this.appService.printReport(response);
+  getReport(@Query('toPdf') toPdf: boolean, @Res() response: Response): void { //warning! Express.js specific!
+    this.appService.printReport(toPdf, response);
   }
 }
