@@ -14,19 +14,33 @@ export class AppService {
 
   printReport(toPdf: boolean, response: Response): void {
     var data = {
-      firstname: 'John',
-      lastname: 'Doe',
+      id: 42,
+      date: 1492012745,
+      company: {
+        name: 'myCompany',
+        address: 'here',
+        city: 'Notfar',
+        postalCode: 123456,
+      },
+      customer: {
+        name: 'myCustomer',
+        address: 'there',
+        city: 'Faraway',
+        postalCode: 654321,
+      },
+      products: [
+        { name: 'product 1', priceUnit: 0.1, quantity: 10, priceTotal: 1 },
+        { name: 'product 2', priceUnit: 0.1, quantity: 10, priceTotal: 1 },
+        { name: 'product 3', priceUnit: 0.1, quantity: 10, priceTotal: 1 },
+      ],
+      total: 140,
     };
 
     var options = {
       convertTo: toPdf ? 'pdf' : 'odt', //can be docx, txt, ...
     };
 
-    carbone.render(
-      './node_modules/carbone/examples/simple.odt',
-      data,
-      options,
-      (err: any, result: any) => {
+    carbone.render('./resources/template-demo.odt', data, options, (err: any, result: any) => {
         if (err) {
           return console.log(err);
         }
@@ -37,11 +51,11 @@ export class AppService {
         );
         response.header(
           'Content-disposition',
-          `attachment; filename=simple.odt`,
+          `attachment; filename=template-demo.${toPdf ? 'pdf' : 'odt'}`,
         );
         response.write(result, 'binary');
         response.end();
-      },
+      }
     );
   }
 }
